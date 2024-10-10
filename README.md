@@ -1,4 +1,5 @@
 Grupės: AIU2
+
 Studentas: Artūras Korsakas
 
 Užduotis: 1 tarpinis
