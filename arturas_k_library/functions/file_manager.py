@@ -1,15 +1,14 @@
 import arturas_k_library.config as config
 
-from arturas_k_library.functions.import_books import import_to_class as im
-from arturas_k_library.modules import user as usr
+import arturas_k_library.functions.helper as helper
+import arturas_k_library.modules.user as usr
 
 import pickle
 import os
 
 def init(lib):
     if os.path.isfile(config.file_name):
-        lib = read_from_library()
-        return lib
+        return read_from_library()
     else:
         print("Įveskite iBibliotekos administratorių:")
         name    = input(" Vardas: ")
@@ -19,7 +18,7 @@ def init(lib):
         print("Ar importuoti testinią biblioteką?")
         imp_lib = input(" (taip/ne) -> ")
         if (imp_lib=="taip"):
-            im(lib)
+            helper.import_to_class(lib)
         print (lib)
         write_to_library(lib)
         return lib
