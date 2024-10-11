@@ -1,8 +1,9 @@
-from arturas_k_library.modules import book as bk
+import arturas_k_library.modules.book as bk
 
-import random
 
 def import_to_class(lib):
+    import random
+    
     books = [
         ("Gyvas vabzdžių pasaulis", "Paltanavičius, Selemonas ", "2024","Vilnius: Alma littera", "Kids", "9786090157923", 3),
         ("Migruojantys paukščiai", "Norvaišaitė-Aleliūnienė, Ignė", "2024","Vilnius : Svajonių knygos", "Novel", "9786090309391", 1),
@@ -46,8 +47,6 @@ def import_to_class(lib):
         ("Pasakos knyga", "M. Vaitiekūnas", 2000, "Alma littera", "Children's", "9786090347852",10),
         ("Pikčiurna", "Eglė Rakauskaitė", 2011, "Alma littera", "Poetry", "9786090241367",10),
         ("Rudenio lapai", "V. Mačernis", 1997, "Vaga", "Poetry", "9789986112306",10),
-        
-        # Baigiame su likusiomis lietuviškomis knygomis
         ("Žvilgsnis į save", "Raimondas Jankauskas", 2004, "Knygų sodas", "Autobiography", "9786090801029",10),
         ("Mėnesienos pasaka", "Vaiva R. Murauskienė", 2020, "Alma littera", "Children's", "9786090514291",10),
         ("Amžinasis Sūnus", "K. Dineika", 2016, "Aukso pieva", "Historical Fiction", "9786090420043",10),
@@ -60,6 +59,19 @@ def import_to_class(lib):
         ("Žvaigždžių vakaras", "A. Šeškevičius", 2019, "Aukso pieva", "Fantasy", "9786090407836",10)
     ]
     random.shuffle(books)
-    
     for book in books:
        lib.add_book(bk.Book(book[0], book[1], book[2], book[3], book[4], book[5], random.randint(1,book[6])))
+       
+def add_single_book(lib, book: dict):
+    try:
+        title    = str(book["title"]) 
+        author   = str(book["author"])
+        details  = str(book["details"]) 
+        genre    = str(book["genre"])
+        isbn     = str(book["isbn"])
+        year     = int(book["year"])
+        quantity = int(book["quantity"])
+    except ValueError:
+        return False
+    lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
+    return True
