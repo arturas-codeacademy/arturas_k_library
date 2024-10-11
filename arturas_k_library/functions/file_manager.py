@@ -8,8 +8,7 @@ import os
 
 def init(lib):
     if os.path.isfile(config.file_name):
-        lib = read_from_library()
-        return lib
+        return read_from_library()
     else:
         print("Įveskite iBibliotekos administratorių:")
         name    = input(" Vardas: ")

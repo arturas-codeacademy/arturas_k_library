@@ -5,8 +5,8 @@ def import_to_class(lib):
     import random
     
     books = [
-        ("Gyvas vabzdžių pasaulis", "Paltanavičius, Selemonas ", "2024","Vilnius: Alma littera", "Kids", "9786090157923", 3),
-        ("Migruojantys paukščiai", "Norvaišaitė-Aleliūnienė, Ignė", "2024","Vilnius : Svajonių knygos", "Novel", "9786090309391", 1),
+        ("Gyvas vabzdžių pasaulis", "Paltanavičius, Selemonas ", 2024,"Vilnius: Alma littera", "Kids", "9786090157923", 3),
+        ("Migruojantys paukščiai", "Norvaišaitė-Aleliūnienė, Ignė", 2024,"Vilnius : Svajonių knygos", "Novel", "9786090309391", 1),
         ("The Great Gatsby", "F. Scott Fitzgerald", 1925, "New York: Charles Scribner's Sons", "Novel", "9780743273565",10),
         ("1984", "George Orwell", 1949, "London: Secker & Warburg", "Dystopian", "9780451524935",10),
         ("To Kill a Mockingbird", "Harper Lee", 1960, "New York: J.B. Lippincott & Co.", "Novel", "9780061120084",10),
@@ -14,7 +14,6 @@ def import_to_class(lib):
         ("The Catcher in the Rye", "J.D. Salinger", 1951, "Boston: Little, Brown and Company", "Novel", "9780316769488",10),
         ("Moby Dick", "Herman Melville", 1851, "Harper & Brothers", "Adventure", "9781503280786",10),
         ("War and Peace", "Leo Tolstoy", 1869, "The Russian Messenger", "Historical Fiction", "9780199232765",10),
-        ("The Odyssey", "Homer", "8th century BC", "Ancient Greece: Various", "Epic Poetry", "9780140268867",10),
         ("Jane Eyre", "Charlotte Brontë", 1847, "London: Smith, Elder & Co.", "Gothic Fiction", "9780142437209",10),
         ("The Hobbit", "J.R.R. Tolkien", 1937, "London: George Allen & Unwin", "Fantasy", "9780007487293",10),
         ("Fahrenheit 451", "Ray Bradbury", 1953, "Simon & Schuster", "Dystopian", "9781451673319",10),
@@ -60,16 +59,27 @@ def import_to_class(lib):
     ]
     random.shuffle(books)
     for book in books:
-       lib.add_book(bk.Book(book[0], book[1], book[2], book[3], book[4], book[5], random.randint(1,book[6])))
+        try:
+            title    = str(book[0]) 
+            author   = str(book[1])
+            year     = int(book[2]) 
+            details  = str(book[3]) 
+            genre    = str(book[4]) 
+            isbn     = str(book[5]) 
+            quantity = random.randint(1,book[6])
+        except:
+            pass
+        lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
+    return True
        
 def add_single_book(lib, book: dict):
     try:
         title    = str(book["title"]) 
         author   = str(book["author"])
+        year     = int(book["year"])
         details  = str(book["details"]) 
         genre    = str(book["genre"])
         isbn     = str(book["isbn"])
-        year     = int(book["year"])
         quantity = int(book["quantity"])
     except ValueError:
         return False
