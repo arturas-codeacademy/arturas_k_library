@@ -1,9 +1,9 @@
 import arturas_k_library.config as config
 import pandas as pd
 
-def show_table(lib, st):
+def show_table(st):
     # Knygų sąrašą paverčiame pandas DataFrame
-    df_books = pd.DataFrame(lib.get_books_list(), columns=["ISBN", "Knygos pavadinimas", "Autorius", "Leidybos metai", "Miestas: Leidykla", "Žanras"])
+    df_books = pd.DataFrame(config.lib.get_books_list(), columns=["ISBN", "Knygos pavadinimas", "Autorius", "Leidybos metai", "Miestas: Leidykla", "Žanras"])
 
     # Puslapiavimo nustatymai
     items_per_page = config.items_per_page  # Knygų skaičius viename puslapyje
@@ -16,12 +16,12 @@ def show_table(lib, st):
     prev_button, next_button = st.columns([1, 1])
 
     with prev_button:
-        if st.button("Atgal"):
+        if st.button("Previous"):
             if st.session_state.page > 1:
                 st.session_state.page -= 1
 
     with next_button:
-        if st.button("Pirmyn"):
+        if st.button("Next"):
             if st.session_state.page < total_pages:
                 st.session_state.page += 1
 
@@ -31,7 +31,4 @@ def show_table(lib, st):
 
     # Rodyti pasirinkto puslapio duomenis
     st.write(f"Rodomi knygų įrašai nuo {start_idx + 1} iki {min(end_idx, len(df_books))} iš {len(df_books)}")
-    st.dataframe(df_books.iloc[start_idx:end_idx].reset_index(drop=True))  # Pašaliname indeksus
-
-    # Rodomas dabartinis puslapis
-    st.write(f"Puslapis {st.session_state.page} iš {total_pages}")
+    st.dataframe(df_books.iloc[start_idx:end_idx])

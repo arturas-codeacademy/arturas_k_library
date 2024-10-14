@@ -72,7 +72,7 @@ while True:
         days_in=int(input(" Dienų skaičius -> "))
         book = config.lib.get_book_by_isbn(book_in)
         user = config.lib.get_user_by_cn(user_in)
-        print( user.borrow_book(book, days_in))
+        print(user.borrow_book(book, days_in))
         print(user)
     elif(str_in=="user"):
         user_in=input(" Kortelės numeris -> ")

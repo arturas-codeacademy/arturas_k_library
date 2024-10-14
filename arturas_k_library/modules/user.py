@@ -24,6 +24,9 @@ class User:
         
         print(self.get_new_user())
     
+    def get_first_name(self):
+        return self.first_name
+    
     def generate_numeric_user_id(self, role: str = "reader" ):
         timestamp = str(int(time.time() * 1000))
         if (role=="reader"):
