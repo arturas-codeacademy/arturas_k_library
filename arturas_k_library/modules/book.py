@@ -16,7 +16,11 @@ class Book:
         self.quantity = quantity
     
     def __repr__(self):
-       return f"ISBN: {self.isbn} | {self.genre} | {self.title}| {self.author} | {self.year} | {self.details} | {self.quantity}"
+        return f"ISBN: {self.isbn} | {self.genre} | {self.title}| {self.author} | {self.year} | {self.details} | {self.quantity}"
+
+    def __str__(self):
+        return f"ISBN: {self.isbn} | {self.genre} | {self.title}| {self.author}"
    
     def get_book_info(self):
         return (str(self.isbn), str(self.title), str(self.author), str(self.year), str(self.details), str(self.genre))
+    
