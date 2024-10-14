@@ -59,10 +59,26 @@ class Library:
     def search_books(self, title=None, author=None):
         results = []
 
-        results = [book for book in self.books if (title.lower() in book.title.lower()) or author.lower() in book.author.lower()]
-  
+        results = [book for book in self.books if title.lower() in book.title.lower() or author.lower() in book.author.lower()]
+        
         if results:
             for book in results:
                 return f"Rasta knyga: {book.title}, autorius: {book.author}, metai: {book.year}, žanras: {book.genre}, kiekis: {book.quantity}"
         else:
             return "Knyga nerasta."
+    
+    def get_book_by_isbn(self, isbn):
+        if(len(isbn)!=13):
+            return False
+        books = list(filter(lambda book: isbn.upper() in str(book.isbn).upper(), self.books))
+        if len(books)>0:
+            return books[0] 
+        return False
+
+    def get_user_by_cn(self, card_number):
+        if(len(card_number)!=15):
+            return False
+        users = list(filter(lambda user: card_number in user.card_number, self.users))
+        if len(users)>0:
+            return users[0] 
+        return False

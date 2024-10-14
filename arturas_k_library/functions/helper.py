@@ -1,7 +1,9 @@
+import arturas_k_library.config as config
+
 import arturas_k_library.modules.book as bk
 
 
-def import_to_class(lib):
+def import_to_class():
     import random
     
     books = [
@@ -69,7 +71,7 @@ def import_to_class(lib):
             quantity = random.randint(1,book[6])
         except:
             pass
-        lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
+        config.lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
     return True
        
 def add_single_book(lib, book: dict):

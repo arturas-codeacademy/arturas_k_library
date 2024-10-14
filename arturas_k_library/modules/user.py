@@ -2,6 +2,8 @@ import time
 import random
 import string
 
+from datetime import datetime, timedelta
+
 class User:
     def __init__(self, 
                  role: str, 
@@ -16,7 +18,11 @@ class User:
             self.user_pasword = user_pasword
         self.first_name = first_name
         self.last_name = last_name
+        
         self.borrowed_books = []
+        self.overdue_books = []
+        
+        print(self.get_new_user())
     
     def generate_numeric_user_id(self, role: str = "reader" ):
         timestamp = str(int(time.time() * 1000))
@@ -43,6 +49,62 @@ class User:
             return "admin"
         else:
             return "guest"
+        
+    def get_new_user(self):
+        result =  f"Naujas vartotojas sistemoje:\n"
+        result += f" ID: {self.card_number}\n"
+        result += f" Vardas: {self.first_name}\n"
+        result += f" Pavardė: {self.last_name}\n"
+        result += f" Slaptažodis: {self.user_pasword}\n"
+        result += f" Rolė: {self.get_library_role()}\n"
+        return result
     
+    def __str__(self):
+        result =  f"Skaitytojo informacija sistemoje:"
+        result += f" ID: {self.card_number}\n"
+        result += f" Vardas: {self.first_name}\n"
+        result += f" Pavardė: {self.last_name}\n"
+        if (len(self.borrowed_books)>0):
+            result += "Paimtos knygos:\n"
+            result += ''.join(str(self.borrowed_books))
+        if (len(self.overdue_books)>0):
+            result += "DĖMESIO, turi vėluojančių knygų:\n"
+            result += ''.join(str(self.overdue_books))
+        return result
+   
     def __repr__(self):
-       return f"ID: {self.card_number}, {self.first_name}, {self.get_library_role()}" 
+        return f"ID: {self.card_number}, {self.first_name}, {self.get_library_role()}" 
+    
+    def borrow_book(self, book, borrow_days):
+        if self.has_overdue_books():
+            print(f"Skaitytojas {self.first_name} turi vėluojančią knygą ir negali pasiimti naujų knygų.")
+            return
+        if book.quantity > 0:
+            book.quantity -= 1
+            due_date = datetime.now() + timedelta(days=borrow_days)
+            self.borrowed_books.append((book, due_date))
+            print(f"{self.first_name} paėmė knygą: {book.title}. Grąžinimo data: {due_date}")
+        else:
+            print(f"Knyga {book.title} neturi laisvų egzempliorių.")
+            
+    def check_overdue_books(self, simulate_date=None):
+        if (simulate_date!=None):
+            try:
+                check_date = datetime.strptime(simulate_date, "%Y-%m-%d")
+            except:
+                datetime.now()
+        else:
+            check_date = datetime.now()
+        self.overdue_books = [
+            book for book, due_date in self.borrowed_books
+            if check_date > due_date
+        ]
+        if self.overdue_books:
+            overdue_titles = ', '.join([book.title for book in self.overdue_books])  # Ištraukiame pavadinimus
+            print(f"Skaitytojas {self.first_name} turi vėluojančių knygų: {overdue_titles}")
+        else:
+            print(f"Skaitytojas {self.first_name} neturi vėluojančių knygų.")
+    
+    def has_overdue_books(self):
+        self.check_overdue_books()
+        return len(self.overdue_books) > 0
