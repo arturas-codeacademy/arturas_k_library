@@ -15,10 +15,13 @@ msg += " pr      : pridėti knygą\n"
 msg += " tr      : ištrinti knygą (pagal ISBN)\n"
 msg += " inv     : pašalinti knygas (pagal metus)\n"
 msg += " search  : ieško knygos (pagal pavadinimą ar autorių)\n"
-msg += " import  : importuoti testinius knygų duomenis\n\n"
+msg += " import  : importuoti testinius knygų duomenis\n"
+msg += " view    : peržiūrėti visas veluojančias knygas\n\n"
 
 msg += " var     : naujas vartotojas\n"
-msg += " book    : knyga priskiriama vartotojui (pagal ISBN ir kortelės nr.)\n\n"
+msg += " user    : vartotojo informacija\n"
+msg += " book    : knyga priskiriama vartotojui (pagal ISBN ir kortelės nr.)\n"
+msg += " over    : sarašas veluojančių knygų (pagal kortelės nr.) \n\n"
 
 msg += " print   : atspausdina visą objektą\n"
 msg += " init    : trinti duomenis ir inicijuoti programą iš naujo\n"
@@ -27,7 +30,7 @@ msg += " i       : išeiti iš programos"
 print(msg)
 
 while True:
-    str_in = input(" -> ")
+    str_in = input("\n -> ")
     if str_in == "i":
         manager.write_to_library()
         print("\nPrograma uždaroma...")
@@ -64,24 +67,25 @@ while True:
         last_name = input(" pavardė -> ")
         config.lib.add_user(usr.User("reader", name, last_name))
     elif str_in == "book":
-        # print(config.lib.get_book_by_isbn(input(" ISBN -> ")))
-        # print(config.lib.get_user_by_cn(input(" Kortelės numeris -> ")))
-        book_in="9780007487293"
-        user_in="011728888819891"
+        book_in=input(" ISBN -> ")
+        user_in=input(" Kortelės numeris -> ")
+        days_in=int(input(" Dienų skaičius -> "))
         book = config.lib.get_book_by_isbn(book_in)
         user = config.lib.get_user_by_cn(user_in)
-        user.borrow_book(book, 30)
+        print( user.borrow_book(book, days_in))
         print(user)
     elif(str_in=="user"):
-        user_in="011728888819891"
+        user_in=input(" Kortelės numeris -> ")
         user = config.lib.get_user_by_cn(user_in)
         print(user)
     elif(str_in=="over"):
-        user_in="011728888819891"
+        user_in=input(" Kortelės numeris -> ")
         user = config.lib.get_user_by_cn(user_in)
-        user.check_overdue_books()
-        print("Simuliuojame datą, 2024-12-01, tai???")
-        user.check_overdue_books("2024-12-01")
+        print(user.check_overdue_books())
+        # print("Simuliuojame datą, 2024-12-01, tai???")
+        # user.check_overdue_books("2024-12-01")
+    elif(str_in=="view"):
+        config.lib.view_overdue_books()
     else:
         print(msg)
 

@@ -60,16 +60,23 @@ class User:
         return result
     
     def __str__(self):
-        result =  f"Skaitytojo informacija sistemoje:"
-        result += f" ID: {self.card_number}\n"
-        result += f" Vardas: {self.first_name}\n"
-        result += f" Pavardė: {self.last_name}\n"
-        if (len(self.borrowed_books)>0):
-            result += "Paimtos knygos:\n"
-            result += ''.join(str(self.borrowed_books))
+        result =  f"  - Skaitytojo informacija sistemoje:\n"
+        result += f"     ID: {self.card_number}\n"
+        result += f"     Vardas: {self.first_name}\n"
+        result += f"     Pavardė: {self.last_name}\n"
+        
         if (len(self.overdue_books)>0):
-            result += "DĖMESIO, turi vėluojančių knygų:\n"
-            result += ''.join(str(self.overdue_books))
+            result += "!"*80+"\n"
+            result += "     - DĖMESIO, turi vėluojančių knygų:\n"
+            for book in enumerate(self.overdue_books):
+                result += f"      {book[0]+1}. {book[1]}\n"
+            result += "!"*80+"\n"
+        
+        if (len(self.borrowed_books)>0):
+            result += "     - Paimtos knygos:\n"
+            for book in enumerate(self.borrowed_books):
+                result += f"      {book[0]+1}. {book[1][0]}\n"
+
         return result
    
     def __repr__(self):
@@ -77,15 +84,15 @@ class User:
     
     def borrow_book(self, book, borrow_days):
         if self.has_overdue_books():
-            print(f"Skaitytojas {self.first_name} turi vėluojančią knygą ir negali pasiimti naujų knygų.")
-            return
+            return f"\n{self.first_name}, turi vėluojančią knygą, todėl negali pasiimti naujų knygų."
+            
         if book.quantity > 0:
             book.quantity -= 1
             due_date = datetime.now() + timedelta(days=borrow_days)
             self.borrowed_books.append((book, due_date))
-            print(f"{self.first_name} paėmė knygą: {book.title}. Grąžinimo data: {due_date}")
+            return f"{self.first_name} paėmė knygą: {book.title}. Grąžinimo data: {due_date}"
         else:
-            print(f"Knyga {book.title} neturi laisvų egzempliorių.")
+            return f"Knyga {book.title} neturi laisvų egzempliorių."
             
     def check_overdue_books(self, simulate_date=None):
         if (simulate_date!=None):
@@ -100,10 +107,13 @@ class User:
             if check_date > due_date
         ]
         if self.overdue_books:
-            overdue_titles = ', '.join([book.title for book in self.overdue_books])  # Ištraukiame pavadinimus
-            print(f"Skaitytojas {self.first_name} turi vėluojančių knygų: {overdue_titles}")
+            result  = f"Skaitovas: {self.first_name} {self.first_name}\n"
+            result += f"Sąrašas vėluojančių knygų:\n"
+            result += ', '.join([f"{book.title} - {book.author}" for book in self.overdue_books])
+            return result
         else:
-            print(f"Skaitytojas {self.first_name} neturi vėluojančių knygų.")
+            return f"Skaitytojas {self.first_name} {self.last_name} neturi vėluojančių knygų."
+        
     
     def has_overdue_books(self):
         self.check_overdue_books()

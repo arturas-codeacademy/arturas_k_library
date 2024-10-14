@@ -36,10 +36,10 @@ class Library:
         tmp_str += "Vartotojai:\n"
         if self.users:
             for user in self.users:
-                tmp_str += f"  - {str(user)}\n" 
+                tmp_str += f"{str(user)}\n" 
         else:
             tmp_str += "  - Nėra įvesta vartotojų!\n"
-        tmp_str += "Knygos:\n"
+        tmp_str += "\nKnygos:\n"
         if self.books:
             for book in self.books:
                 tmp_str += f"  - {str(book)}\n"
@@ -58,9 +58,7 @@ class Library:
     
     def search_books(self, title=None, author=None):
         results = []
-
         results = [book for book in self.books if title.lower() in book.title.lower() or author.lower() in book.author.lower()]
-        
         if results:
             for book in results:
                 return f"Rasta knyga: {book.title}, autorius: {book.author}, metai: {book.year}, žanras: {book.genre}, kiekis: {book.quantity}"
@@ -82,3 +80,18 @@ class Library:
         if len(users)>0:
             return users[0] 
         return False
+
+    def view_overdue_books(self):
+        overdue_books = []
+        for reader in self.users:
+            reader.check_overdue_books()
+            overdue_books.extend(reader.overdue_books)
+        
+        if overdue_books:
+            print("\nVėluojančių knygų sąrašas:")
+            for book in enumerate(overdue_books):
+                print(f"{book[0]+1}. {book[1].title} - {book[1].author}")
+        else:
+            print("Nėra vėluojančių knygų!")
+        
+        
