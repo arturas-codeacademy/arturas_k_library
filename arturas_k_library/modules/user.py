@@ -26,6 +26,9 @@ class User:
     
     def get_first_name(self):
         return self.first_name
+
+    def get_card_number(self):
+        return self.card_number
     
     def generate_numeric_user_id(self, role: str = "reader" ):
         timestamp = str(int(time.time() * 1000))

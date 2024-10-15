@@ -4,7 +4,7 @@ import arturas_k_library.modules.book as bk
 import arturas_k_library.modules.user as usr
 import arturas_k_library.functions.file_manager as manager
 import arturas_k_library.functions.helper as helper
-from arturas_k_library.web.auth import authenticate_user
+from arturas_k_library.web.auth import authenticate_user, logged_in, logged_out, check_login
 import arturas_k_library.web.table as web
 import streamlit as st
 import pandas as pd
@@ -14,38 +14,51 @@ config.lib = lb.Library()
 manager.init()
 
 # Patikriname prisijungimo būseną
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
+# if 'logged_in' not in st.session_state:
+#     st.session_state.logged_in = logged_in()
+# else:
+
+st.session_state.logged_in = check_login()
 
 # Nustatome puslapio konfigūraciją
-st.set_page_config(page_title="iBiblioteka", page_icon="")
-
-
+st.set_page_config(page_title="įBiblioteka", page_icon="")
 
 # SIDEBAR -------------------------------------------------------------------------------------------
 if not st.session_state.logged_in:
-    username = st.sidebar.text_input("Vartotojo ID")
+    card_number = st.sidebar.text_input("Vartotojo ID")
     password = st.sidebar.text_input("Slaptažodis", type="password")
 
     if st.sidebar.button("Prisijungti"):
-        if authenticate_user(username, password, st):
-            st.session_state.logged_in = True
+        if authenticate_user(card_number, password, st):
+            config.user_in = config.lib.get_user_by_cn(card_number)
+            st.session_state.logged_in = logged_in()
             st.rerun()
         else:
             st.sidebar.error("Neteisingas vartotojo vardas arba slaptažodis")       
             
 else:
     # Prisijungus rodome pagrindinį puslapį
-    st.sidebar.success(f"Jūs sėkmingai prisijungėte: {config.user_in.get_first_name()}!")
-    user_role=config.user_in.get_library_role()
+    try:
+        name_in = config.user_in.get_first_name()
+    except:
+        name_in = "svečias"
+    if (name_in != "svečias"):
+        st.sidebar.success(f"Jūs sėkmingai prisijungėte: {name_in}!")
+    try:
+        user_role=config.user_in.get_library_role()
+    except:
+        user_role="svečias"
     st.sidebar.write(f"iBibliotekoje esate kaip: {user_role}")
     
     if (user_role=="admin"):
         options = ["Visos knygos", 
                    "Pridėti knygą", 
                    "Ištrinti knygą",
-                   "Ištrinti knygas", 
-                   "Return Book"]
+                   "Ištrinti knygas",
+                   "-----------------", 
+                   "Pridėtį vartotoją",
+                   "Priskirti knygą"
+                   ]
         selected_option = st.sidebar.selectbox("Pasirinkite:", options)
         
         if selected_option == "Pridėti knygą":
@@ -55,17 +68,20 @@ else:
         selected_option = st.sidebar.selectbox("Pasirinkite:", options)
         pass
     else:
-        pass
+        options = ["Visos knygos"]
+        selected_option = st.sidebar.selectbox("Pasirinkite:", options)
     # Galimybė atsijungti
     if st.sidebar.button("Atsijungti"):
-        st.session_state.logged_in = False
+        manager.write_to_library()
+        st.session_state.logged_in = logged_out()
+        print(st.session_state.logged_in)
         st.rerun()
         
 
 # BODY ----------------------------------------------------------------------------------------------
 
 # Puslapio turinys
-st.write("# Sveiki atvykę į iBiblioteką 👋")
+st.write("# Sveiki atvykę įBiblioteką 👋")
 st.markdown(f"Didžiausia bibliotekų sistema Lietuvoje, net {config.lib.get_count()} skirtingų knygų.")
 
 if not st.session_state.logged_in:
@@ -88,13 +104,36 @@ else:
             isbn_in = st.text_input(f"Įveskite ISBN")
             if st.button("Ištrinti knygą"):
                  st.write(config.lib.remove_single_book(isbn_in))
+                 manager.write_to_library()
         if selected_option == "Ištrinti knygas":
             years_in = st.text_input(f"Įveskite metus")
             if st.button("Ištrinti knygas"):
                  st.write(config.lib.remove_old_books(years_in))
+                 manager.write_to_library()
+        if selected_option == "Pridėtį vartotoją":
+            first_name = st.sidebar.text_input(f"Įveskite vardą")
+            last_name = st.sidebar.text_input(f"Įveskite pavardę")
+            if st.sidebar.button("Pridėti skaitytoją"):
+                new_user = usr.User("reader", first_name, last_name)
+                config.lib.add_user(new_user)
+                st.sidebar.write(new_user.get_new_user())
+                manager.write_to_library()
+        if selected_option == "Priskirti knygą":
+            book_in=st.sidebar.text_input(f"Knygos ISBN")
+            user_in=st.sidebar.text_input(f"Skaitytojo ID")
+            try: 
+                days_in=int(st.sidebar.text_input(f"Laikotarpis"))
+            except:
+                days_in=14
+            if st.sidebar.button("Pridėti į sąrašą"):
+                book = config.lib.get_book_by_isbn(book_in)
+                user = config.lib.get_user_by_cn(user_in)
+                st.sidebar.write(user.borrow_book(book, days_in))
+                manager.write_to_library()
     elif(user_role=="reader"):        
         if selected_option == "Visos knygos":
-                web.show_table(st)
+            web.show_table(st) 
     else:
-        pass
+        if selected_option == "Visos knygos":
+            web.show_table(st)
     

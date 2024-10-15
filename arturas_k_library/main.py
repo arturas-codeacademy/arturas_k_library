@@ -63,9 +63,9 @@ while True:
             manager.delete_reset()
             manager.init()
     elif str_in == "var":
-        name = input(" vardas -> ")
+        first_name = input(" vardas -> ")
         last_name = input(" pavardė -> ")
-        config.lib.add_user(usr.User("reader", name, last_name))
+        config.lib.add_user(usr.User("reader", first_name, last_name))
     elif str_in == "book":
         book_in=input(" ISBN -> ")
         user_in=input(" Kortelės numeris -> ")
