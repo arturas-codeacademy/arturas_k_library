@@ -1,6 +1,8 @@
 import arturas_k_library.modules.library as lb
+import arturas_k_library.modules.user as usr
 
 lib = lb.Library
+user_in = usr.User
 
 file_name = "db_objeckt.pkl"
 

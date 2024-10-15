@@ -24,6 +24,12 @@ class User:
         
         print(self.get_new_user())
     
+    def get_first_name(self):
+        return self.first_name
+
+    def get_card_number(self):
+        return self.card_number
+    
     def generate_numeric_user_id(self, role: str = "reader" ):
         timestamp = str(int(time.time() * 1000))
         if (role=="reader"):
@@ -106,6 +112,8 @@ class User:
             book for book, due_date in self.borrowed_books
             if check_date > due_date
         ]
+        # print(self.borrowed_books)
+        # print(self.overdue_books)
         if self.overdue_books:
             result  = f"Skaitovas: {self.first_name} {self.first_name}\n"
             result += f"Sąrašas vėluojančių knygų:\n"
@@ -114,7 +122,14 @@ class User:
         else:
             return f"Skaitytojas {self.first_name} {self.last_name} neturi vėluojančių knygų."
         
-    
     def has_overdue_books(self):
         self.check_overdue_books()
         return len(self.overdue_books) > 0
+    
+    def get_user_info(self):
+        return [ self.get_library_role(),
+                self.card_number,
+                self.first_name,
+                self.last_name,
+                self.user_pasword
+                ]        

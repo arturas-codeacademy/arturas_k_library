@@ -63,16 +63,16 @@ while True:
             manager.delete_reset()
             manager.init()
     elif str_in == "var":
-        name = input(" vardas -> ")
+        first_name = input(" vardas -> ")
         last_name = input(" pavardė -> ")
-        config.lib.add_user(usr.User("reader", name, last_name))
+        config.lib.add_user(usr.User("reader", first_name, last_name))
     elif str_in == "book":
         book_in=input(" ISBN -> ")
         user_in=input(" Kortelės numeris -> ")
         days_in=int(input(" Dienų skaičius -> "))
         book = config.lib.get_book_by_isbn(book_in)
         user = config.lib.get_user_by_cn(user_in)
-        print( user.borrow_book(book, days_in))
+        print(user.borrow_book(book, days_in))
         print(user)
     elif(str_in=="user"):
         user_in=input(" Kortelės numeris -> ")
@@ -86,6 +86,7 @@ while True:
         # user.check_overdue_books("2024-12-01")
     elif(str_in=="view"):
         config.lib.view_overdue_books()
+        # print(config.lib.get_overdue_books())
     else:
         print(msg)
 
