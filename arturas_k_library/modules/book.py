@@ -24,3 +24,10 @@ class Book:
     def get_book_info(self):
         return (str(self.isbn), str(self.title), str(self.author), str(self.year), str(self.details), str(self.genre), str(self.quantity))
     
+    def get_list(self):
+        return [self.isbn,
+                self.title, 
+                self.author,
+                self.year,
+                self.details,
+                self.genre]

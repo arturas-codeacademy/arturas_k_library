@@ -93,7 +93,30 @@ class Library:
                 print(f"{book[0]+1}. {book[1].title} - {book[1].author}")
         else:
             print("Nėra vėluojančių knygų!")
-        
         return overdue_books
-        
+    
+    def get_overdue_books(self):
+        overdue_books = []
+        for reader in self.users:
+            reader.check_overdue_books()
+            id_in = reader.card_number
+            # print(reader.overdue_books)
+            for book in reader.overdue_books:
+                linst_in = book.get_list()
+                overdue_books.append([id_in]+linst_in)
+        return overdue_books
+
+    def get_borrowed_books(self):
+        borrowed_books = []
+        for reader in self.users:
+            id_in = reader.card_number
+            for book in reader.borrowed_books:
+                borrowed_books.append([id_in]+[book[1]]+book[0].get_list())
+        return borrowed_books
+    
+    def get_user_list(self):
+        user_list=[]
+        for users in self.users:
+            user_list.append(users.get_user_info())
+        return user_list
         

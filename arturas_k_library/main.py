@@ -86,6 +86,7 @@ while True:
         # user.check_overdue_books("2024-12-01")
     elif(str_in=="view"):
         config.lib.view_overdue_books()
+        # print(config.lib.get_overdue_books())
     else:
         print(msg)
 

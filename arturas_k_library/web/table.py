@@ -46,7 +46,15 @@ def show_table(st):
         st.dataframe(df_books.iloc[start_idx:end_idx])
 
 def show_over(st):
-    config.lib.view_overdue_books()
-    df_books = pd.DataFrame(config.lib.get_books_list(), columns=["ISBN", "Knygos pavadinimas", "Autorius", "Leidybos metai", "Miestas: Leidykla", "Žanras", "Kiekis"])
-    
+    # print(config.lib.get_overdue_books())
+    df_books = pd.DataFrame(config.lib.get_overdue_books(), columns=["Skaitytojo ID","ISBN", "Knygos pavadinimas", "Autorius", "Leidybos metai", "Miestas: Leidykla", "Žanras"])
+    st.dataframe(df_books)
         
+def show_borrowed(st):
+    df_books = pd.DataFrame(config.lib.get_borrowed_books(), columns=["Skaitytojo ID","Grąžinimo data","ISBN", "Knygos pavadinimas", "Autorius", "Leidybos metai", "Miestas: Leidykla", "Žanras"])
+    st.dataframe(df_books)
+
+def show_users(st):
+    df_books = pd.DataFrame(config.lib.get_user_list(), columns=["Skaitytojo ID","Rolė","Vardas", "Pavardė", "Slaptažodis"])
+    st.dataframe(df_books)
+    

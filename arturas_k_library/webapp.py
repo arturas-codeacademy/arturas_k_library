@@ -57,7 +57,10 @@ else:
                    "Ištrinti knygas",
                    "-----------------", 
                    "Pridėtį vartotoją",
-                   "Priskirti knygą"
+                   "Vartotojų sąrašas",
+                   "Priskirti knygą",
+                   "Veluojančios knygos",
+                   "Paimtos knygos"
                    ]
         selected_option = st.sidebar.selectbox("Pasirinkite:", options)
         
@@ -88,7 +91,8 @@ if not st.session_state.logged_in:
     web.show_table(st)
 else:
     if (user_role=="admin"):
-        web.show_table(st)
+        if selected_option == "Visos knygos":
+            web.show_table(st) 
         if selected_option == "Pridėti knygą":
             st.write("Įveskite knygos duomenis:")
             book = config.book_title.copy()
@@ -113,12 +117,18 @@ else:
         if selected_option == "Pridėtį vartotoją":
             first_name = st.sidebar.text_input(f"Įveskite vardą")
             last_name = st.sidebar.text_input(f"Įveskite pavardę")
+            if_admin = st.sidebar.checkbox('Ar bibliotininkas?')
             if st.sidebar.button("Pridėti skaitytoją"):
-                new_user = usr.User("reader", first_name, last_name)
+                if if_admin:
+                    role = "admin"
+                else:
+                    role = "reader"
+                new_user = usr.User(role, first_name, last_name)
                 config.lib.add_user(new_user)
                 st.sidebar.write(new_user.get_new_user())
                 manager.write_to_library()
         if selected_option == "Priskirti knygą":
+            web.show_table(st) 
             book_in=st.sidebar.text_input(f"Knygos ISBN")
             user_in=st.sidebar.text_input(f"Skaitytojo ID")
             try: 
@@ -130,6 +140,15 @@ else:
                 user = config.lib.get_user_by_cn(user_in)
                 st.sidebar.write(user.borrow_book(book, days_in))
                 manager.write_to_library()
+        if selected_option == "Veluojančios knygos":    
+            st.write("Veluojančių knygų sąrašas")
+            web.show_over(st)
+        if selected_option == "Paimtos knygos":    
+            st.write("Visos paimtos knygos")
+            web.show_borrowed(st)
+        if selected_option == "Vartotojų sąrašas":    
+            st.write("Vartotojų duomenys")
+            web.show_users(st)
     elif(user_role=="reader"):        
         if selected_option == "Visos knygos":
             web.show_table(st) 
