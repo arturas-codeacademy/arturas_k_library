@@ -88,15 +88,15 @@ class User:
     def __repr__(self):
         return f"ID: {self.card_number}, {self.first_name}, {self.get_library_role()}" 
     
-    def borrow_book(self, book, borrow_days):
-        if self.has_overdue_books():
+    def borrow_book(self, book, borrow_days, ignore=False):
+        if(ignore == False and self.has_overdue_books()):
             return f"\n{self.first_name}, turi vėluojančią knygą, todėl negali pasiimti naujų knygų."
             
         if book.quantity > 0:
             book.quantity -= 1
             due_date = datetime.now() + timedelta(days=borrow_days)
             self.borrowed_books.append((book, due_date))
-            return f"{self.first_name} paėmė knygą: {book.title}. Grąžinimo data: {due_date}"
+            return f"{self.first_name} paėmė knygą:\n{book.title}\nGrąžinimo data: {due_date.strftime("%Y-%m-%d")}"
         else:
             return f"Knyga {book.title} neturi laisvų egzempliorių."
             
@@ -112,8 +112,6 @@ class User:
             book for book, due_date in self.borrowed_books
             if check_date > due_date
         ]
-        # print(self.borrowed_books)
-        # print(self.overdue_books)
         if self.overdue_books:
             result  = f"Skaitovas: {self.first_name} {self.first_name}\n"
             result += f"Sąrašas vėluojančių knygų:\n"
@@ -121,7 +119,24 @@ class User:
             return result
         else:
             return f"Skaitytojas {self.first_name} {self.last_name} neturi vėluojančių knygų."
-        
+
+    def get_overdue_books(self, simulate_date=None):
+        if (simulate_date!=None):
+            try:
+                check_date = datetime.strptime(simulate_date, "%Y-%m-%d")
+            except:
+                datetime.now()
+        else:
+            check_date = datetime.now()
+        self.overdue_books = [
+            book for book, due_date in self.borrowed_books
+            if check_date > due_date
+        ]
+        if self.overdue_books:
+            return self.overdue_books
+        else:
+            return False
+
     def has_overdue_books(self):
         self.check_overdue_books()
         return len(self.overdue_books) > 0
@@ -132,4 +147,4 @@ class User:
                 self.first_name,
                 self.last_name,
                 self.user_pasword
-                ]        
+                ]

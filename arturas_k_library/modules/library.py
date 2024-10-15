@@ -5,6 +5,7 @@ class Library:
     
     def add_user(self, User):
         self.users.append(User)
+        return User.card_number
     
     def add_book(self, Book):
         self.books.append(Book)
@@ -19,7 +20,7 @@ class Library:
             self.books.remove(book_to_remove)
             return (f"Knyga su ISBN {isbn} sėkmingai pašalinta.")
         else:
-            return (f"Knygų su duutu ISBN {isbn} nėra.")
+            return (f"Knygų su duotu ISBN {isbn} nėra.")
         
     def remove_old_books(self, year):
         try:
@@ -111,7 +112,17 @@ class Library:
         for reader in self.users:
             id_in = reader.card_number
             for book in reader.borrowed_books:
-                borrowed_books.append([id_in]+[book[1]]+book[0].get_list())
+                import datetime
+                date_in = datetime.datetime.strftime(book[1],"%Y-%m-%d")
+                borrowed_books.append([id_in]+[str(date_in)]+book[0].get_list())
+        return borrowed_books
+    
+    def get_user_borrowed_books(self,user_in):
+        borrowed_books = []
+        for book in user_in.borrowed_books:
+            import datetime
+            date_in = datetime.datetime.strftime(book[1],"%Y-%m-%d")
+            borrowed_books.append([str(date_in)]+book[0].get_list())
         return borrowed_books
     
     def get_user_list(self):
@@ -119,4 +130,13 @@ class Library:
         for users in self.users:
             user_list.append(users.get_user_info())
         return user_list
-        
+    
+    def get_all_dates(self):
+        dates = []
+        for reader in self.users:
+            id_in = reader.card_number
+            for book in reader.borrowed_books:
+                import datetime
+                date_in = datetime.datetime.strftime(book[1],"%Y-%m-%d")
+                dates.append(str(date_in))
+        return dates

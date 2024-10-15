@@ -28,6 +28,6 @@ class Book:
         return [self.isbn,
                 self.title, 
                 self.author,
-                self.year,
+                str(self.year),
                 self.details,
                 self.genre]

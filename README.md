@@ -12,25 +12,25 @@ Užduotis: 1 tarpinis
 + Turėtų būti galimybė ieškoti knygų bibliotekoje, pagal knygos pavadinimą arba autorių.
 + Knygos išduodamos tik tam tikram laikui, jeigu knygos negrąžinamos iki išduotos datos, jos skaitomos vėluojančiomis (angl. Overdue).
 + Turi būti galima peržiūrėti visas bibliotekos knygas
-Turi būti galima peržiūrėti visas vėluojančias knygas
-Turi būti neleidžiama pasiimti knygos, jeigu skaitytojas turi vėluojančią knygą ir jis turi būti įspėtas, kad knyga vėluoja
++ Turi būti galima peržiūrėti visas vėluojančias knygas
++ Turi būti neleidžiama pasiimti knygos, jeigu skaitytojas turi vėluojančią knygą ir jis turi būti įspėtas, kad knyga vėluoja
  
-- Bonus Balai (neprivaloma padaryti)
+* Bonus Balai (neprivaloma padaryti)
 
-Knygas galima pasiimti tik su skaitytoje kortele, skaitytojo korteles reikia galėti užregistruoti ir priskirti naudotojui.
-Turėtų būti galimybė išvesti statistiką, koks yra vidutinis vėluojančių knygų kiekis ir kitus aktualius rodiklius, tokius kaip, kokio žanro knygų yra daugiausiai, kokio žanro knygas, dažniausiai ima skaitytojai ir t.t
-Dvi rolės bibliotekininkas ir skaitytojas, bibliotekininkas prisijungia įvedę naudotojo vardą ir slaptažodį, o skaitytojas savo skaitytojo kortelės numerį. Skaitytojas negali pridėti/išimti knygų.
-Paleiskite programą per streamlit
-Naudojama virtuali aplinka viso darbo metu (tinka tiek venv tiek poetry)
-Galite pamėginti padaryti grafinę sąsają ir per įrankius, kaip tkinter.
++ Knygas galima pasiimti tik su skaitytoje kortele, skaitytojo korteles reikia galėti užregistruoti ir priskirti naudotojui.
+- Turėtų būti galimybė išvesti statistiką, koks yra vidutinis vėluojančių knygų kiekis ir kitus aktualius rodiklius, tokius kaip, kokio žanro knygų yra daugiausiai, kokio žanro knygas, dažniausiai ima skaitytojai ir t.t
++ Dvi rolės bibliotekininkas ir skaitytojas, bibliotekininkas prisijungia įvedę naudotojo vardą ir slaptažodį, o skaitytojas savo skaitytojo kortelės numerį. Skaitytojas negali pridėti/išimti knygų.
++ Paleiskite programą per streamlit
++ Naudojama virtuali aplinka viso darbo metu (tinka tiek venv tiek poetry)
++ Galite pamėginti padaryti grafinę sąsają ir per įrankius, kaip tkinter.
  
 
-- Būtinos sąlygos
+* Būtinos sąlygos
 
 + Nerašome visko viename faile (turi būti laikomasi, bent minimalios struktūros)
 + Programa turi veikti tol, kol bus išjungta, naudotojo pageidavimu
 + Pridėtos/pašalintos knygos, turi išlikti tarp programos paleidimų (vadinasi viskas saugoma faile)
 + Informacija saugome pkl/csv/json/txt failuose
 Programa negali "nulūžti" (už kiekvieną vietą, kurioje lūžta, minus balai)
-Programoje viskas turi būti funkcijose/metoduose klasėse. Globaliai jie gali būti tik kviečiami, bet visi skaičiavimai būtent šiose struktūrose.
-Privaloma naudota GitHub ir turėti logiškus commit pavadinimus, bent 3 šakas sukurtas projekto metu ir bent 5 commitai (commitai neturėtų būti labai dideli, po vieną funkcionalumą vienas commitas)
++ Programoje viskas turi būti funkcijose/metoduose klasėse. Globaliai jie gali būti tik kviečiami, bet visi skaičiavimai būtent šiose struktūrose.
++ Privaloma naudota GitHub ir turėti logiškus commit pavadinimus, bent 3 šakas sukurtas projekto metu ir bent 5 commitai (commitai neturėtų būti labai dideli, po vieną funkcionalumą vienas commitas)

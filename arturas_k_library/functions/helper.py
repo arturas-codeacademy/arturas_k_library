@@ -1,6 +1,6 @@
 import arturas_k_library.config as config
-
 import arturas_k_library.modules.book as bk
+import arturas_k_library.modules.user as usr
 
 
 def import_to_class():
@@ -72,6 +72,37 @@ def import_to_class():
         except:
             pass
         config.lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
+    readers = [['Mindaugas', 'Urbonas'],
+                ['Kęstutis', 'Gailius'],
+                ['Marius', 'Kazlauskas'],
+                ['Petras', 'Gailius'],
+                ['Marius', 'Juozaitis'],
+                ['Ona', 'Jankūnas'],
+                ['Saulius', 'Stanislovaitis'],
+                ['Rūta', 'Kazakevičius'],
+                ['Antanas', 'Baltrūnas'],
+                ['Saulius', 'Gailius'],
+                ['Mindaugas', 'Urbonas'],
+                ['Ona', 'Masiulis'],
+                ['Inga', 'Žygelis'],
+                ['Ona', 'Kubilius'],
+                ['Rūta', 'Rimkus'],
+                ['Viktoras', 'Žilinskas'],
+                ['Antanas', 'Baltrūnas'],
+                ['Rūta', 'Domeika'],
+                ['Justas', 'Masiulis'],
+                ['Kęstutis', 'Baltrūnas']]
+    
+    count = len(books)
+    for reader in readers:
+        user = usr.User("reader", reader[0], reader[1])
+        config.lib.add_user(user)
+        for i in range(random.randint(1,5)):
+            minus_in = random.randint(-30,0)
+            days_in = random.randint(minus_in,30)
+            book = config.lib.books[random.randint(0,count-1)]
+            user.borrow_book(book, days_in, True)
+            
     return True
        
 def add_single_book(lib, book: dict):
@@ -87,3 +118,14 @@ def add_single_book(lib, book: dict):
         return False
     lib.add_book(bk.Book(title, author, year, details, genre, isbn, quantity))
     return True
+
+
+def add_new_user(role, first_name, last_name):
+    try:
+        role = str(role)
+        first_name = str(first_name)
+        last_name = str(last_name)
+    except ValueError:
+        return False
+    card_number = config.lib.add_user(usr.User(role, first_name, last_name))
+    return config.lib.get_user_by_cn(card_number)
