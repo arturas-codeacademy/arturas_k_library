@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 streamlit = "^1.39.0"
 pandas = "^2.2.3"
+pyodbc = "^5.2.0"
 
 
 [build-system]

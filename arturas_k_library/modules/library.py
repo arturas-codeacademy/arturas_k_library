@@ -26,11 +26,11 @@ class Library:
         try:
             year = int(year)
         except:
-            return "Įvyko klaida, bandykite dar kartą!"
+            return 0
         before_count = self.get_count()
         self.books = [book for book in self.books if book.year > year]
         after_count = self.get_count()
-        return f"Ištrinta {before_count-after_count}, pagal metus {year}"
+        return before_count-after_count
     
     def __repr__(self) -> str:
         tmp_str = "\nBibliotekos informacija!\n\n"

@@ -19,7 +19,7 @@ class Book:
         return f"ISBN: {self.isbn}, {self.title}, {self.author}, {self.year}, {self.genre}, {self.details}, {self.quantity}"
 
     def __str__(self):
-        return f"ISBN: {self.isbn}, {self.title}, {self.author}, {self.year}"
+        return f"ISBN: {self.isbn}, {self.title}, {self.author}, {self.year}, {self.genre}, {self.details}, {self.quantity}"
    
     def get_book_info(self):
         return (str(self.isbn), str(self.title), str(self.author), str(self.year), str(self.details), str(self.genre), str(self.quantity))

@@ -5,6 +5,7 @@ lib = lb.Library
 user_in = usr.User
 
 file_name = "db_objeckt.pkl"
+db_name = "library.db"
 
 book_title = {"title":"Pavadinimas", 
               "author":"Autorius", 
@@ -18,3 +19,5 @@ book_title = {"title":"Pavadinimas",
 roles={"admin":"01","reader":"18", "guest":""}
 
 items_per_page = 10
+
+BOOK_FROM = 1800
